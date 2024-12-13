@@ -1,4 +1,4 @@
-package com.bestwishes
+package com.voterapp
 
 import android.app.Application
 import com.facebook.react.PackageList

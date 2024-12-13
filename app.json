@@ -1,4 +1,7 @@
 {
-  "name": "BestWishes",
-  "displayName": "BestWishes"
+  "name": "VoterApp",
+  "displayName": "VoterApp",
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-1788733945687291~8379941132"
+  }
 }
