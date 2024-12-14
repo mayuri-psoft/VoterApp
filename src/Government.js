@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Image } from 'react-native';
 import { SvgXml } from 'react-native-svg';
-import top from './assets/gov.svg';
+import Voter from './assets/voter.png';
 import search from './assets/search.svg';
 
 const backArrowSvg = `
@@ -15,32 +15,33 @@ export default function GovernmentPage({navigation}) {
     return (
         <View style={styles.container}>
               <View style={styles.header}>
-                    <TouchableOpacity style={styles.backButton}>
+                  <TouchableOpacity 
+    style={styles.backButton} 
+    onPress={() => navigation.goBack()}>
                         <SvgXml xml={backArrowSvg} width="24" height="24" />
                     </TouchableOpacity>
                     <Text style={styles.title}>Government Schemes</Text>
                 </View>
                 <View style={styles.separator} />
+                     <View style={styles.div}>
+                
+                                <Image source={Voter} style={styles.topSvg} />
+                            </View>
+                            <View style={styles.searchBar}>
+                                <TextInput
+                                    style={styles.searchInput}
+                                    placeholder="Search"
+                                    placeholderTextColor="#667085"
+                                />
+                                <SvgXml xml={search} width="20" height="20" style={styles.searchIcon} />
+                            </View>
             <ScrollView>
                 {/* Header */}
               
 
                 {/* Content */}
                 <View style={styles.content}>
-                    {/* Top SVG */}
-                    <SvgXml xml={top} width={355} style={styles.topSvg} />
-
-                    {/* Search Bar */}
-                    <View style={styles.searchBar}>
-                        <TextInput
-                            style={styles.searchInput}
-                            placeholder="Search"
-                            placeholderTextColor="#667085"
-                        />
-                        <SvgXml xml={search} width="20" height="20" style={styles.searchIcon} />
-
-                    </View>
-
+              
                     {/* Boxes */}
                     {Array(3).fill(null).map((_, index) => (
                         <View key={index} style={styles.outerBox}>
@@ -117,10 +118,14 @@ const styles = StyleSheet.create({
         borderColor: '#D0D5DD',
         borderWidth: 1,
         borderRadius: 8,
-        width: '100%',
         height: 45,
-        marginBottom: 15,
+        marginBottom: 10,
+        marginHorizontal: 15,
         paddingHorizontal: 10,
+    },
+    div: {
+        margin: 10,
+        marginBottom: 0
     },
     searchInput: {
         flex: 1,
@@ -149,6 +154,13 @@ const styles = StyleSheet.create({
         width: '100%', // Make it slightly smaller than the outerBox
         margin: -1, // Offset to cover the sides of the outer box
         zIndex: 2,
+    },
+    topSvg: {
+        width: '97%',
+        alignSelf: 'center',
+        marginBottom: 15,
+        marginTop: 5,
+        borderRadius: 6
     },
     padding: {
         padding: 12,

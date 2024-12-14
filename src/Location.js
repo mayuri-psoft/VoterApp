@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Image } from 'react-native';
 import { SvgXml } from 'react-native-svg';
-import CheckBox from '@react-native-community/checkbox';
-import DatetTimePicker from '@react-native-community/datetimepicker';
-import { Dropdown } from 'react-native-element-dropdown'; // Import the dropdown
-import calendarIconSvg from './assets/elements.svg';
-import img from './assets/imgg.png';
-
 
 const backArrowSvg = `
 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -15,25 +9,12 @@ const backArrowSvg = `
 </svg>
 `;
 
-export default function Complain({ navigation }) {
-   
-    const [IssueData, setIssueData] = useState([]);
-    const [selectedIssue, setSelectedIssue] = useState(null);
-    const [isIssueFocus, setIsIssueFocus] = useState(false);
+export default function Location({ navigation }) {
+    const [address, setAddress] = useState('');
+    const [floor, setFloor] = useState('');
+    const [road, setRoad] = useState('');
+    const [area, setArea] = useState('');
 
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const IssueResponse = [
-                { label: 'Issue1', value: 'male' },
-                { label: 'Issue2', value: 'female' },
-                { label: 'Issue3', value: 'other' },
-            ];
-            setIssueData(IssueResponse);
-        };
-
-        fetchData();
-    }, []);
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -42,56 +23,87 @@ export default function Complain({ navigation }) {
     onPress={() => navigation.goBack()}>
                     <SvgXml xml={backArrowSvg} width="24" height="24" />
                 </TouchableOpacity>
-                <Text style={styles.title}>Complain</Text>
+                <Text style={styles.title}>Location</Text>
             </View>
             <View style={styles.topseparator} />
             <ScrollView>
                 <View style={styles.content}>
-                          
                     <View style={styles.div}>
 
-                    {/* Issue */}
-                    <Text style={styles.fieldLabel}>Issue <Text style={styles.required}>*</Text></Text>
-                    <Dropdown
-                        style={styles.dropdown}
-                        placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
-                        iconStyle={styles.iconStyle}
-                        data={IssueData}
-                        itemTextStyle={{ color: "#667085" }}
-                        maxHeight={300}
-                        labelField="label"
-                        valueField="value"
-                        placeholder={!isIssueFocus ? 'Select Issue' : '...'}
-                        value={selectedIssue}
-                        onFocus={() => setIsIssueFocus(true)}
-                        onBlur={() => setIsIssueFocus(false)}
-                        onChange={item => {
-                            setSelectedIssue(item.value);
-                            setIsIssueFocus(false);
-                        }}
-                    />
+                        {/* Address */}
+                        <Text style={styles.fieldLabel}>SOC/BLDG/CHAWL NAME <Text style={styles.required}>*</Text></Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="SOC/BLDG/CHAWL NAME"
+                            placeholderTextColor="#667085"
+                            value={address}
+                            onChangeText={setAddress}
+                        />
 
-                    {/* Area Name */}
-                    <Text style={styles.fieldLabel}>Complain Details</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Type here..."
-                        placeholderTextColor="#667085"
-                        multiline={true}
-                    />
+                        {/* Floor Number */}
+                        <Text style={styles.fieldLabel}>Building No <Text style={styles.required}>*</Text></Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Building Number"
+                            placeholderTextColor="#667085"
+                            value={floor}
+                            onChangeText={setFloor}
+                        />
+
+                        {/* Road Name */}
+                        <Text style={styles.fieldLabel}>Road Name <Text style={styles.required}>*</Text></Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Road Name"
+                            placeholderTextColor="#667085"
+                            value={road}
+                            onChangeText={setRoad}
+                        />
+
+                        {/* Area Name */}
+                        <Text style={styles.fieldLabel}>Floor <Text style={styles.required}>*</Text></Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Floor"
+                            placeholderTextColor="#667085"
+                            value={area}
+                        />
+
+                        <Text style={styles.fieldLabel}>Area <Text style={styles.required}>*</Text></Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Area Name"
+                            placeholderTextColor="#667085"
+                            value={area}
+                        />
+
+                        <Text style={styles.fieldLabel}>Location <Text style={styles.required}>*</Text></Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Location"
+                            placeholderTextColor="#667085"
+                            value={area}
+                        />
+
+                        <Text style={styles.fieldLabel}>City <Text style={styles.required}>*</Text></Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="City"
+                            placeholderTextColor="#667085"
+                            value={area}
+                        />
+                    </View>
+
 
                 </View>
 
-                    {/* Continue Button */}
 
-                </View>
             </ScrollView>
             <View style={styles.footer}>
                 <View style={styles.buttomseparator} />
 
                 <TouchableOpacity style={styles.continueButton}>
-                    <Text style={styles.continueButtonText}>Submit</Text>
+                    <Text style={styles.continueButtonText}>Save</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -102,16 +114,16 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: 30,
-        backgroundColor:'white',
+        backgroundColor: 'white',
 
     },
-div:{
-backgroundColor:'white',
-padding: 15,
-marginVertical:15,
-borderRadius:8,
-elevation: 5, 
-},
+    div: {
+        backgroundColor: 'white',
+        padding: 15,
+        marginVertical: 15,
+        borderRadius: 8,
+        elevation: 5,
+    },
     backButton: {
         borderColor: '#D0D5DD',
         borderWidth: 1,
@@ -164,7 +176,7 @@ elevation: 5,
     },
     content: {
         paddingHorizontal: 10,
-        backgroundColor:'#FAFAFA'
+        backgroundColor: '#FAFAFA'
     },
     fieldLabel: {
         fontSize: 14,
@@ -180,7 +192,7 @@ elevation: 5,
         borderWidth: 1,
         borderRadius: 8,
         paddingHorizontal: 15,
-        minHeight: 45,
+        height: 45,
         marginBottom: 15,
         justifyContent: 'center',
         color: '#000000',
@@ -263,27 +275,27 @@ elevation: 5,
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 15, // Space between image and button
-      },
-      image: {
-        marginTop:15,
+    },
+    image: {
+        marginTop: 15,
         width: 130,
         height: 130,
         borderRadius: 65, // Make it a circle if you prefer
-      },
-      uploadButton: {
+    },
+    uploadButton: {
         backgroundColor: '#DC6803',
         width: '30%',
         paddingVertical: 12,
-        alignSelf:'center',
+        alignSelf: 'center',
         alignItems: 'center',
         borderRadius: 8,
         justifyContent: 'center',
-      },
-      buttonText: {
+    },
+    buttonText: {
         color: '#FFFFFF',
         fontSize: 14,
         fontWeight: 'bold',
-      },
+    },
 });
 
 

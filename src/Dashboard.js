@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Dashboardimg from './assets/dashboard.png';
@@ -17,176 +17,226 @@ import home from './assets/home.svg';
 import credit from './assets/credit.svg';
 import tinder from './assets/tinder.svg';
 import plus from './assets/plus.svg';
+import home1 from './assets/home1.svg';
+import business from './assets/businesss1.svg';
+import offers from './assets/offers1.svg';
+import profile from './assets/profile1.svg';
 
-const Dashboard = ({navigation}) => {
+const Dashboard = ({ navigation }) => {
+    const [activeTab, setActiveTab] = useState('Home');
+
+    const renderCard = useMemo(() => {
+        return [1, 2, 3, 4, 5].map((item, index) => (
+            <View key={index} style={styles.card}>
+                <Image source={Dashboardimg} style={styles.cardImage} />
+                <View style={styles.iconTextContainer}>
+                    <SvgXml xml={truck} />
+                    <Text style={styles.cardSubText}>Scheme for Woman</Text>
+                </View>
+                <Text style={styles.cardTitle}>Ladki Bahin Yojana will continue</Text>
+                <TouchableOpacity style={styles.cardButton}>
+                    <Text style={styles.cardButtonText}>Read</Text>
+                </TouchableOpacity>
+            </View>
+        ));
+    }, []); // Memoize the cards to prevent unnecessary re-renders
+
+
     return (
-        <ScrollView style={styles.container}>
+        <View style={styles.mainContainer}>
+            <ScrollView style={styles.container}>
+
             <View style={styles.header}>
                 <View style={styles.textContainer}>
                     <Text style={styles.greeting}>Hi, Vinod</Text>
                     <Text style={styles.welcome}>Welcome Back !</Text>
                 </View>
-                <View style={styles.iconContainer}>
+                <View style={styles.iconContainer1}>
                     <MaterialCommunityIcons name="bell" size={25} color="black" />
                 </View>
             </View>
-
             <Image source={Dashboardimg} style={styles.image} />
-            <Text style={styles.activityTitle}>Every Day Activity</Text>
+            <View style={styles.page}>
 
-            <View style={styles.boxContainer}>
-                <TouchableOpacity style={styles.box} onPress={() => {
-                                        navigation.navigate("Complain");
-                                }}>
-                    <View style={[styles.iconContainerBox, { backgroundColor: '#E8FBF7' }]}>
-                        <SvgXml xml={flash} width="24" height="24" />
-                    </View>
-                    <Text style={styles.boxText}>Events</Text>
-                </TouchableOpacity>
+                <Text style={styles.activityTitle}>Every Day Activity</Text>
 
-                <TouchableOpacity style={styles.box}>
-                    <View style={[styles.iconContainerBox, { backgroundColor: '#F4F3FF' }]}>
-                        <SvgXml xml={star} width="24" height="24" />
-                    </View>
-                    <Text style={styles.boxText}>Programs</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.box} onPress={() => {
-                                        navigation.navigate("Account");
-                                }}>
-                    <View style={[styles.iconContainerBox, { backgroundColor: '#FFFAEB' }]}>
-                        <SvgXml xml={edit} width="24" height="24" />
-                    </View>
-                    <Text style={styles.boxText}>Registration</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.box}>
-                    <View style={[styles.iconContainerBox, { backgroundColor: '#FEFBE8' }]}>
-                        <SvgXml xml={location} width="24" height="24" />
-                    </View>
-                    <Text style={styles.boxText}>Area Info</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.box} onPress={() => {
-                                        navigation.navigate("Voterslip");
-                                }}>
-                    <View style={[styles.iconContainerBox, { backgroundColor: '#FEF3F2' }]}>
-                        <SvgXml xml={mail} width="24" height="24" />
-                    </View>
-                    <Text style={styles.boxText}>Jobs</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.box} onPress={() => {
-                                        navigation.navigate("Schemes");
-                                }}>
-                    <View style={[styles.iconContainerBox, { backgroundColor: '#F3FEE7' }]}>
-                        <SvgXml style={styles.svg} xml={Govt} width="24" height="24" />
-                    </View>
-                    <Text style={styles.boxText}>Govt Scheme</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={{ height: 16 }} />
-
-            <TouchableOpacity style={styles.svgContainer}>
-                <SvgXml xml={card} />
-            </TouchableOpacity>
-
-
-            <View style={styles.titleContainer}>
-                <Text style={styles.activityTitle1}>Famous Govt Policy</Text>
-                <TouchableOpacity>
-                    <Text style={styles.viewAll}>View All</Text>
-                </TouchableOpacity>
-            </View>
-
-            <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.scrollContainer}
-            >
-                {[1, 2, 3, 4, 5].map((item, index) => (
-                    <View key={index} style={styles.card}>
-                        <Image
-                            source={Dashboardimg}
-                            style={styles.cardImage}
-                        />
-                        <View style={styles.iconTextContainer}>
-                            <SvgXml xml={truck} />
-                            <Text style={styles.cardSubText}>Scheme for Woman</Text>
+                <View style={styles.boxContainer}>
+                    <TouchableOpacity style={styles.box} onPress={() => {
+                        navigation.navigate("Events");
+                    }}>
+                        <View style={[styles.iconContainerBox, { backgroundColor: '#E8FBF7' }]}>
+                            <SvgXml xml={flash} width="24" height="24" />
                         </View>
-                        <Text style={styles.cardTitle}>Ladki Bahin Yojana will continue</Text>
-                        <TouchableOpacity style={styles.cardButton}>
-                            <Text style={styles.cardButtonText}>Read</Text>
-                        </TouchableOpacity>
-                    </View>
-                ))}
-            </ScrollView>
-            <View style={styles.titleContainer}>
-                <Text style={styles.activityTitle1}>Emergency Helpline</Text>
-                <TouchableOpacity>
-                    <Text style={styles.viewAll}>View All</Text>
+                        <Text style={styles.boxText}>Events</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.box} onPress={() => {
+                        navigation.navigate("Programs");
+                    }}>
+                        <View style={[styles.iconContainerBox, { backgroundColor: '#F4F3FF' }]}>
+                            <SvgXml xml={star} width="24" height="24" />
+                        </View>
+                        <Text style={styles.boxText}>Programs</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.box} >
+                        <View style={[styles.iconContainerBox, { backgroundColor: '#FFFAEB' }]}>
+                            <SvgXml xml={edit} width="24" height="24" />
+                        </View>
+                        <Text style={styles.boxText}>Registration</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.box}>
+                        <View style={[styles.iconContainerBox, { backgroundColor: '#FEFBE8' }]}>
+                            <SvgXml xml={location} width="24" height="24" />
+                        </View>
+                        <Text style={styles.boxText}>Area Info</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.box} onPress={() => {
+                        navigation.navigate("Jobs");
+                    }}>
+                        <View style={[styles.iconContainerBox, { backgroundColor: '#FEF3F2' }]}>
+                            <SvgXml xml={mail} width="24" height="24" />
+                        </View>
+                        <Text style={styles.boxText}>Jobs</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.box} onPress={() => {
+                        navigation.navigate("Schemes");
+                    }}>
+                        <View style={[styles.iconContainerBox, { backgroundColor: '#F3FEE7' }]}>
+                            <SvgXml style={styles.svg} xml={Govt} width="24" height="24" />
+                        </View>
+                        <Text style={styles.boxText}>Govt Scheme</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={{ height: 16 }} />
+
+                <TouchableOpacity style={styles.svgContainer}>
+                    <SvgXml xml={card} />
+                </TouchableOpacity>
+
+
+                <View style={styles.titleContainer}>
+                    <Text style={styles.activityTitle1}>Famous Govt Policy</Text>
+                    <TouchableOpacity>
+                        <Text style={styles.viewAll}>View All</Text>
+                    </TouchableOpacity>
+                </View>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
+                        {renderCard}
+                    </ScrollView>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.activityTitle1}>Emergency Helpline</Text>
+                    <TouchableOpacity>
+                        <Text style={styles.viewAll}>View All</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.boxContainer}>
+                    <TouchableOpacity style={styles.box}>
+                        <View style={[styles.iconContainerBox, { backgroundColor: '#E8FBF7' }]}>
+                            <SvgXml xml={flash} width="24" height="24" />
+                        </View>
+                        <Text style={styles.boxText}>Ambulance</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.box}>
+                        <View style={[styles.iconContainerBox, { backgroundColor: '#F4F3FF' }]}>
+                            <SvgXml xml={tinder} width="24" height="24" />
+                        </View>
+                        <Text style={styles.boxText}>Blood Bank</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.box}>
+                        <View style={[styles.iconContainerBox, { backgroundColor: '#FFFAEB' }]}>
+                            <SvgXml xml={plus} width="24" height="24" />
+                        </View>
+                        <Text style={styles.boxText}>Hospitals</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.box}>
+                        <View style={[styles.iconContainerBox, { backgroundColor: '#FEFBE8' }]}>
+                            <SvgXml xml={home} width="24" height="24" />
+                        </View>
+                        <Text style={styles.boxText}>Police STN</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.box}>
+                        <View style={[styles.iconContainerBox, { backgroundColor: '#FEF3F2' }]}>
+                            <SvgXml xml={bell} width="24" height="24" />
+                        </View>
+                        <Text style={styles.boxText}>Fire Bridged</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.box}>
+                        <View style={[styles.iconContainerBox, { backgroundColor: '#F3FEE7' }]}>
+                            <SvgXml xml={credit} width="24" height="24" />
+                        </View>
+                        <Text style={styles.boxText}>Medical Funds</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={{ height: 16 }} />
+
+                <TouchableOpacity style={[styles.svgContainer, { marginBottom: 90 }]}>
+                    <SvgXml xml={card1} />
                 </TouchableOpacity>
             </View>
-            <View style={styles.boxContainer}>
-                <TouchableOpacity style={styles.box}>
-                    <View style={[styles.iconContainerBox, { backgroundColor: '#E8FBF7' }]}>
-                        <SvgXml xml={flash} width="24" height="24" />
+        </ScrollView >
+           <View style={styles.footer}>
+                <TouchableOpacity style={styles.footerItem}>
+                    <View style={styles.iconContainer}>
+                        {activeTab === 'Home' && <View style={styles.activeLine} />}
+                        <SvgXml xml={home1} width="24" height="24" />
                     </View>
-                    <Text style={styles.boxText}>Ambulance</Text>
+                    <Text style={[styles.footerText, activeTab === 'Home' && styles.activeText]}>Home</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.box}>
-                    <View style={[styles.iconContainerBox, { backgroundColor: '#F4F3FF' }]}>
-                        <SvgXml xml={tinder} width="24" height="24" />
+                <TouchableOpacity style={styles.footerItem}>
+                    <View style={styles.iconContainer}>
+                        {activeTab === 'Business' && <View style={styles.activeLine} />}
+                        <SvgXml xml={business} width="24" height="24" />
                     </View>
-                    <Text style={styles.boxText}>Blood Bank</Text>
+                    <Text style={[styles.footerText, activeTab === 'Business' && styles.activeText]}>Business</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.box}>
-                    <View style={[styles.iconContainerBox, { backgroundColor: '#FFFAEB' }]}>
-                        <SvgXml xml={plus} width="24" height="24" />
+                <TouchableOpacity style={styles.footerItem}>
+                    <View style={styles.iconContainer}>
+                        {activeTab === 'Offers' && <View style={styles.activeLine} />}
+                        <SvgXml xml={offers} width="24" height="24" />
                     </View>
-                    <Text style={styles.boxText}>Hospitals</Text>
+                    <Text style={[styles.footerText, activeTab === 'Offers' && styles.activeText]}>Offers</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.box}>
-                    <View style={[styles.iconContainerBox, { backgroundColor: '#FEFBE8' }]}>
-                        <SvgXml xml={home} width="24" height="24" />
+                <TouchableOpacity style={styles.footerItem} onPress={() => {
+                        navigation.navigate("Account");
+                    }}>
+                    <View style={styles.iconContainer}>
+                        {activeTab === 'Profile' && <View style={styles.activeLine} />}
+                        <SvgXml xml={profile} width="24" height="24" />
                     </View>
-                    <Text style={styles.boxText}>Police STN</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.box}>
-                    <View style={[styles.iconContainerBox, { backgroundColor: '#FEF3F2' }]}>
-                        <SvgXml xml={bell} width="24" height="24" />
-                    </View>
-                    <Text style={styles.boxText}>Fire Bridged</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.box}>
-                    <View style={[styles.iconContainerBox, { backgroundColor: '#F3FEE7' }]}>
-                        <SvgXml xml={credit} width="24" height="24" />
-                    </View>
-                    <Text style={styles.boxText}>Medical Funds</Text>
+                    <Text style={[styles.footerText, activeTab === 'Profile' && styles.activeText]}>Profile</Text>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.svgContainer}>
-                <SvgXml xml={card1} />
-            </TouchableOpacity>
-        </ScrollView>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
+    mainContainer: {
         flex: 1,
         backgroundColor: '#F5F6F7',
+    },
+    container: {
+        flex: 1,
+    },
+    page: {
+        padding: 12
     },
     header: {
         backgroundColor: '#DC6803',
         height: 436,
         width: '100%',
-        position: 'relative', // Make header relative so the image can be positioned within it
         padding: 12,
         justifyContent: 'flex-start',
         flexDirection: 'row',
@@ -213,12 +263,11 @@ const styles = StyleSheet.create({
         fontFamily: 'Inter',
         color: 'white',
     },
-    iconContainer: {
+    iconContainer1: {
         backgroundColor: 'white',
         borderRadius: 25,
         padding: 8,
         marginTop: 38
-
     },
     image: {
         position: 'absolute', // Position the image inside the header
@@ -239,21 +288,20 @@ const styles = StyleSheet.create({
         color: 'black',
         textAlign: 'left',
         marginTop: 55,
+        paddingHorizontal: 5,
         marginBottom: 10,
-        marginLeft: 15
     },
     boxContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'space-evenly',
-        marginHorizontal: 5,
+        justifyContent: 'space-between',
     },
     box: {
         alignItems: 'center',
         justifyContent: 'center',
         width: 100,
         height: 100,
-        margin: 8,
+        margin: 5,
         backgroundColor: 'white',
         borderRadius: 10,
         shadowColor: 'black',
@@ -290,9 +338,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 8,
-        padding: 12,
-        marginTop: 5
+        paddingVertical: 12,
+        paddingHorizontal: 5,
     },
     activityTitle1: {
         fontWeight: '900',
@@ -308,13 +355,15 @@ const styles = StyleSheet.create({
     scrollContainer: {
         flexDirection: 'row',
         gap: 16,
-        paddingHorizontal:8
+        paddingHorizontal: 5,
+        paddingVertical: 5,
     },
     card: {
         height: 266,
         width: 145,
         backgroundColor: 'white',
         overflow: 'hidden',
+        borderRadius: 8,
     },
     cardImage: {
         height: 145,
@@ -330,7 +379,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 8,
-        paddingHorizontal:8,
+        paddingHorizontal: 8,
         marginBottom: 8,
     },
     cardSubText: {
@@ -342,7 +391,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'black',
         marginBottom: 8,
-        paddingHorizontal:8
+        paddingHorizontal: 8
     },
     cardButton: {
         alignSelf: 'flex-start',
@@ -352,11 +401,52 @@ const styles = StyleSheet.create({
         borderColor: '#175A63',
         backgroundColor: '#E8FBF7',
         borderRadius: 4,
-        marginHorizontal:8
+        marginHorizontal: 8
     },
     cardButtonText: {
         fontSize: 12,
         color: '#175A63',
+        fontWeight: 'bold',
+    },
+    footer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        height: 70,
+        borderTopWidth: 1,
+        borderTopColor: '#E0E0E0',
+        backgroundColor: '#FFFFFF',
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        elevation: 5,
+    },
+    footerItem: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+    },
+    iconContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+    },
+    activeLine: {
+        width: '50%',
+        height: 3,
+        backgroundColor: 'green',
+        position: 'absolute',
+        top: -8,
+        borderRadius: 2,
+    },
+    footerText: {
+        fontSize: 12,
+        color: '#7A7A7A',
+        marginTop: 4,
+    },
+    activeText: {
+        color: 'black',
         fontWeight: 'bold',
     },
 });

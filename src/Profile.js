@@ -54,7 +54,9 @@ export default function Profile({ navigation }) {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity style={styles.backButton}>
+              <TouchableOpacity 
+    style={styles.backButton} 
+    onPress={() => navigation.goBack()}>
                     <SvgXml xml={backArrowSvg} width="24" height="24" />
                 </TouchableOpacity>
                 <Text style={styles.title}>Profile</Text>

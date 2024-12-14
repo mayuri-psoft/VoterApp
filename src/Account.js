@@ -2,6 +2,15 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 import img from './assets/imgg.png';
+import fam from './assets/frnd.svg';
+import loc from './assets/loc.svg';
+import lock from './assets/lock.svg';
+import vote from './assets/vote.svg';
+import frnd from './assets/frnd.svg';
+import setting from './assets/setting.svg';
+import help from './assets/help.svg';
+import comp from './assets/comp.svg';
+import logout from './assets/logout.svg';
 
 const backArrowSvg = `
 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -12,36 +21,16 @@ const backArrowSvg = `
 
 const arrowRightSvg = `
 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M5 12h14"></path>
-  <path d="M12 5l7 7-7 7"></path>
+  <path d="M9 18l6-6-6-6"></path>
 </svg>
 `;
 
-const placeholderIconSvg = `
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <circle cx="12" cy="12" r="10"></circle>
-  <line x1="15" y1="9" x2="9" y2="15"></line>
-  <line x1="9" y1="9" x2="15" y2="15"></line>
-</svg>
-`;
 
 const Account = ({ navigation }) => {
-    const links = [
-        'Your Location',
-        'Family Details',
-        'Voting Slip',
-        'Invite Friends',
-        'Notification Settings',
-        'Help Center',
-        'Complaint',
-        'Privacy Policy',
-        'Logout',
-    ];
-
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity style={styles.backButton}>
+                <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
                     <SvgXml xml={backArrowSvg} width="24" height="24" />
                 </TouchableOpacity>
                 <Text style={styles.title}>My Account</Text>
@@ -54,34 +43,109 @@ const Account = ({ navigation }) => {
                     </View>
 
                     {/* Upload Photo Button */}
-                    <TouchableOpacity style={styles.uploadButton} onPress={() => {
-                                        navigation.navigate("Profile");
-                                }}>
+                    <TouchableOpacity
+                        style={styles.uploadButton}
+                        onPress={() => navigation.navigate('Profile')}
+                    >
                         <Text style={styles.buttonText}>Update Profile</Text>
                     </TouchableOpacity>
 
+                    {/* Individual Links */}
                     <View style={styles.div}>
-                        {links.map((link, index) => (
-                            <View key={index}>
-                            <TouchableOpacity style={styles.link}>
-                                <View style={styles.linkLeft}>
-                                    <SvgXml xml={placeholderIconSvg} style={styles.linkIcon} />
-                                    <Text style={styles.linkText}>{link}</Text>
-                                </View>
-                                <SvgXml xml={arrowRightSvg} style={styles.arrowIcon} />
-                            </TouchableOpacity>
-                            <View style={styles.separator} />
-                        </View>
-                        
-                        ))}
+                        {/* Your Location */}
+                        <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('Location')}>
+                            <View style={styles.linkLeft}>
+                                <SvgXml xml={loc} style={styles.linkIcon} />
+                                <Text style={styles.linkText}>Your Location</Text>
+                            </View>
+                            <SvgXml xml={arrowRightSvg} style={styles.arrowIcon} />
+                        </TouchableOpacity>
+                        <View style={styles.separator} />
+
+                        {/* Family Details */}
+                        <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('Family')}>
+                            <View style={styles.linkLeft}>
+                                <SvgXml xml={fam} style={styles.linkIcon} />
+                                <Text style={styles.linkText}>Family Details</Text>
+                            </View>
+                            <SvgXml xml={arrowRightSvg} style={styles.arrowIcon} />
+                        </TouchableOpacity>
+                        <View style={styles.separator} />
+
+                        {/* Voting Slip */}
+                        <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('VotingSlip')}>
+                            <View style={styles.linkLeft}>
+                                <SvgXml xml={vote} style={styles.linkIcon} />
+                                <Text style={styles.linkText}>Voting Slip</Text>
+                            </View>
+                            <SvgXml xml={arrowRightSvg} style={styles.arrowIcon} />
+                        </TouchableOpacity>
+                        <View style={styles.separator} />
+
+                        {/* Invite Friends */}
+                        <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('invitefriends')}>
+                            <View style={styles.linkLeft}>
+                                <SvgXml xml={frnd} style={styles.linkIcon} />
+                                <Text style={styles.linkText}>Invite Friends</Text>
+                            </View>
+                            <SvgXml xml={arrowRightSvg} style={styles.arrowIcon} />
+                        </TouchableOpacity>
+                        <View style={styles.separator} />
+
+                        <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('Settings')}>
+                            <View style={styles.linkLeft}>
+                                <SvgXml xml={setting} style={styles.linkIcon} />
+                                <Text style={styles.linkText}>Notification Settings</Text>
+                            </View>
+                            <SvgXml xml={arrowRightSvg} style={styles.arrowIcon} />
+                        </TouchableOpacity>
+                        <View style={styles.separator} />
+
+                        {/* Help Center */}
+                        <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('helpcenter')}>
+                            <View style={styles.linkLeft}>
+                                <SvgXml xml={help} style={styles.linkIcon} />
+                                <Text style={styles.linkText}>Help Center</Text>
+                            </View>
+                            <SvgXml xml={arrowRightSvg} style={styles.arrowIcon} />
+                        </TouchableOpacity>
+                        <View style={styles.separator} />
+
+                          {/* Help Center */}
+                          <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('Complain')}>
+                            <View style={styles.linkLeft}>
+                                <SvgXml xml={comp} style={styles.linkIcon} />
+                                <Text style={styles.linkText}>Complaint</Text>
+                            </View>
+                            <SvgXml xml={arrowRightSvg} style={styles.arrowIcon} />
+                        </TouchableOpacity>
+                        <View style={styles.separator} />
+
+                          {/* Help Center */}
+                          <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('PrivacyPolicy')}>
+                            <View style={styles.linkLeft}>
+                                <SvgXml xml={lock} style={styles.linkIcon} />
+                                <Text style={styles.linkText}>Privacy Policy</Text>
+                            </View>
+                            <SvgXml xml={arrowRightSvg} style={styles.arrowIcon} />
+                        </TouchableOpacity>
+                        <View style={styles.separator} />
+
+                          {/* Help Center */}
+                          <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('Complain')}>
+                            <View style={styles.linkLeft}>
+                                <SvgXml xml={logout} style={styles.linkIcon} />
+                                <Text style={styles.linkText}>Logout</Text>
+                            </View>
+                            <SvgXml xml={arrowRightSvg} style={styles.arrowIcon} />
+                        </TouchableOpacity>
                     </View>
                 </View>
             </ScrollView>
-
-            
         </View>
     );
 };
+
 
 const styles = StyleSheet.create({
     container: {

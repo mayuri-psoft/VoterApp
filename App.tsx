@@ -19,6 +19,15 @@ import NewPassword from './src/NewPassword';
 import PasswordReset from './src/pwreset';
 import Account from './src/Account';
 import VoterSlip from './src/VoterSlip';
+import Jobs from './src/Jobs';
+import Events from './src/Events';
+import Programs from './src/Programs';
+import Location from './src/Location';
+import Family from './src/Family';
+import HelpCenter from './src/Helpcenter';
+import InviteFriends from './src/InviteFriends';
+import SettingsPage from './src/Settings';
+import PrivacyPage from './src/PrivacyPolicy';
 
 const Stack = createNativeStackNavigator();
 const App = () => {
@@ -76,6 +85,23 @@ const App = () => {
           component={NewPassword}
           options={{ headerShown: false }}
         />
+        
+        <Stack.Screen
+          name="invitefriends"
+          component={InviteFriends}
+          options={{ headerShown: false }}
+        />
+        
+        <Stack.Screen
+          name="Settings"
+          component={SettingsPage}
+          options={{ headerShown: false }}
+        />
+           <Stack.Screen
+          name="helpcenter"
+          component={HelpCenter}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="otp"
           component={OTP}
@@ -107,8 +133,38 @@ const App = () => {
           options={{ headerShown: false }}
         />
            <Stack.Screen
-          name="Voterslip"
+          name="VotingSlip"
           component={VoterSlip}
+          options={{ headerShown: false }}
+        />
+          <Stack.Screen
+          name="Jobs"
+          component={Jobs}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PrivacyPolicy"
+          component={PrivacyPage}
+          options={{ headerShown: false }}
+        />
+          <Stack.Screen
+          name="Events"
+          component={Events}
+          options={{ headerShown: false }}
+        />
+          <Stack.Screen
+          name="Programs"
+          component={Programs}
+          options={{ headerShown: false }}
+        />
+             <Stack.Screen
+          name="Location"
+          component={Location}
+          options={{ headerShown: false }}
+        />
+                <Stack.Screen
+          name="Family"
+          component={Family}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
