@@ -33,8 +33,10 @@ const SettingsPage = () => {
         <View style={styles.container}>
             {/* Header */}
             <View style={styles.header}>
-                <TouchableOpacity style={styles.backButton}>
-                    <SvgXml xml={backArrowSvg} width="24" height="24" />
+       <TouchableOpacity
+                    style={styles.backButton}
+                    onPress={() => navigation.goBack()}>  
+                                      <SvgXml xml={backArrowSvg} width="24" height="24" />
                 </TouchableOpacity>
                 <Text style={styles.title}>Settings</Text>
             </View>
@@ -86,13 +88,20 @@ const styles = StyleSheet.create({
         marginTop: 10,
                 backgroundColor: 'white',
     },
-    backButton: {
-        marginRight: 10,
+     backButton: {
+        borderColor: '#D0D5DD',
+        borderWidth: 1,
+        borderRadius: 8,
+        padding: 5,
     },
-    title: {
+     title: {
         fontSize: 18,
+        flex: 1,
+        marginLeft: 10,
+        marginVertical: 5,
         fontWeight: 'bold',
-        color: '#000',
+        color: '#000000',
+        marginBottom: 5,
     },
     topSeparator: {
         height: 1,

@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Image } from 'react-native';
-import { SvgXml } from 'react-native-svg';
-import CheckBox from '@react-native-community/checkbox';
-import DatetTimePicker from '@react-native-community/datetimepicker';
-import { Dropdown } from 'react-native-element-dropdown'; // Import the dropdown
-import calendarIconSvg from './assets/elements.svg';
-import img from './assets/imgg.png';
-
+import {
+    StyleSheet,
+    Text,
+    View,
+    ScrollView,
+    TextInput,
+    TouchableOpacity,
+    Alert,
+  } from 'react-native';
+  import { SvgXml } from 'react-native-svg';
+import { Dropdown } from 'react-native-element-dropdown'; // 
+import url from '../env';
 
 const backArrowSvg = `
 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -16,102 +20,156 @@ const backArrowSvg = `
 `;
 
 export default function Complain({ navigation }) {
-   
-    const [IssueData, setIssueData] = useState([]);
-    const [selectedIssue, setSelectedIssue] = useState(null);
+    const [issueData, setIssueData] = useState([]); // Dropdown data
+    const [selectedIssue, setSelectedIssue] = useState(null); // Selected dropdown item
+    const [selectedIssueName, setSelectedIssueName] = useState(null); // Selected dropdown item
+    const [complainDetails, setComplainDetails] = useState(''); // Complain details
     const [isIssueFocus, setIsIssueFocus] = useState(false);
 
+    const apiPath = `${url.nodeapipath}issue-category`;
 
     useEffect(() => {
-        const fetchData = async () => {
-            const IssueResponse = [
-                { label: 'Issue1', value: 'male' },
-                { label: 'Issue2', value: 'female' },
-                { label: 'Issue3', value: 'other' },
-            ];
-            setIssueData(IssueResponse);
+        fetchIssues();
+      }, []);
+    
+      const fetchIssues = async () => {
+        try {
+          const response = await fetch(apiPath);
+          const data = await response.json();
+    
+          // Map API data to fit the dropdown structure
+          const mappedData = data.map((item) => ({
+            label: item.issueCateName,
+            value: item._id,
+          }));
+    
+          setIssueData(mappedData);
+        } catch (error) {
+          console.error('Error fetching issue data:', error);
+          Alert.alert('Error', 'Unable to fetch issue data. Please try again.');
+        }
+      };
+    
+      const handleSubmit = async () => {
+        if (!selectedIssue) {
+            Alert.alert('Error', 'Please select an issue.');
+            return;
+        }
+    
+        if (!complainDetails.trim()) {
+            Alert.alert('Error', 'Please enter complain details.');
+            return;
+        }
+    
+        const payload = {
+            issueName:selectedIssueName,
+            issueDesc:complainDetails,
+            issueCatid: selectedIssue,
+            issueLoctionId: "675ed548edd77ba7e41ef8d0", 
+            status: "pending",
         };
-
-        fetchData();
-    }, []);
+    console.log(payload);
+    
+        try {
+            const response = await fetch(`${url.nodeapipath}issue-category`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+    
+            if (response.ok) {
+                Alert.alert('Success', 'Your complaint has been submitted.');
+                setSelectedIssue(null); // Reset dropdown
+                setComplainDetails(''); // Reset complain details
+            } else {
+                const errorData = await response.json();
+                console.error('Error submitting data:', errorData);
+                Alert.alert('Error', 'Failed to submit your complaint. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            Alert.alert('Error', 'An unexpected error occurred. Please try again.');
+        }
+    };
+    
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-              <TouchableOpacity 
-    style={styles.backButton} 
-    onPress={() => navigation.goBack()}>
-                    <SvgXml xml={backArrowSvg} width="24" height="24" />
-                </TouchableOpacity>
-                <Text style={styles.title}>Complain</Text>
-            </View>
-            <View style={styles.topseparator} />
-            <ScrollView>
-                <View style={styles.content}>
-                          
-                    <View style={styles.div}>
-
-                    {/* Issue */}
-                    <Text style={styles.fieldLabel}>Issue <Text style={styles.required}>*</Text></Text>
-                    <Dropdown
-                        style={styles.dropdown}
-                        placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
-                        iconStyle={styles.iconStyle}
-                        data={IssueData}
-                        itemTextStyle={{ color: "#667085" }}
-                        maxHeight={300}
-                        labelField="label"
-                        valueField="value"
-                        placeholder={!isIssueFocus ? 'Select Issue' : '...'}
-                        value={selectedIssue}
-                        onFocus={() => setIsIssueFocus(true)}
-                        onBlur={() => setIsIssueFocus(false)}
-                        onChange={item => {
-                            setSelectedIssue(item.value);
-                            setIsIssueFocus(false);
-                        }}
-                    />
-
-                    {/* Area Name */}
-                    <Text style={styles.fieldLabel}>Complain Details</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Type here..."
-                        placeholderTextColor="#667085"
-                        multiline={true}
-                    />
-
-                </View>
-
-                    {/* Continue Button */}
-
-                </View>
-            </ScrollView>
-            <View style={styles.footer}>
-                <View style={styles.buttomseparator} />
-
-                <TouchableOpacity style={styles.continueButton}>
-                    <Text style={styles.continueButtonText}>Submit</Text>
-                </TouchableOpacity>
-            </View>
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.goBack()}>
+            <SvgXml xml={backArrowSvg} width="24" height="24" />
+          </TouchableOpacity>
+          <Text style={styles.title}>Complain</Text>
         </View>
+        <View style={styles.topseparator} />
+        <ScrollView>
+          <View style={styles.content}>
+            <View style={styles.div}>
+              <Text style={styles.fieldLabel}>
+                Issue <Text style={styles.required}>*</Text>
+              </Text>
+              <Dropdown
+                style={styles.dropdown}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                iconStyle={styles.iconStyle}
+                data={issueData}
+                itemTextStyle={{ color: '#667085' }}
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                placeholder={!isIssueFocus ? 'Select Issue' : '...'}
+                value={selectedIssue}
+                onFocus={() => setIsIssueFocus(true)}
+                onBlur={() => setIsIssueFocus(false)}
+                onChange={(item) => {
+                  setSelectedIssue(item.value);
+                  setSelectedIssueName(item.label)
+                  setIsIssueFocus(false);
+                }}
+              />
+  
+              <Text style={styles.fieldLabel}>Complain Details</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Type here..."
+                placeholderTextColor="#667085"
+                multiline={true}
+                value={complainDetails}
+                onChangeText={setComplainDetails}
+              />
+            </View>
+          </View>
+        </ScrollView>
+        <View style={styles.footer}>
+          <View style={styles.buttomseparator} />
+  
+          <TouchableOpacity style={styles.continueButton} onPress={handleSubmit}>
+            <Text style={styles.continueButtonText}>Submit</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     );
-}
+  }
+  
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: 30,
-        backgroundColor:'white',
+        backgroundColor: 'white',
 
     },
-div:{
-backgroundColor:'white',
-padding: 15,
-marginVertical:15,
-borderRadius:8,
-elevation: 5, 
-},
+    div: {
+        backgroundColor: 'white',
+        padding: 15,
+        marginVertical: 15,
+        borderRadius: 8,
+        elevation: 5,
+    },
     backButton: {
         borderColor: '#D0D5DD',
         borderWidth: 1,
@@ -164,7 +222,7 @@ elevation: 5,
     },
     content: {
         paddingHorizontal: 10,
-        backgroundColor:'#FAFAFA'
+        backgroundColor: '#FAFAFA'
     },
     fieldLabel: {
         fontSize: 14,
@@ -263,27 +321,27 @@ elevation: 5,
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 15, // Space between image and button
-      },
-      image: {
-        marginTop:15,
+    },
+    image: {
+        marginTop: 15,
         width: 130,
         height: 130,
         borderRadius: 65, // Make it a circle if you prefer
-      },
-      uploadButton: {
+    },
+    uploadButton: {
         backgroundColor: '#DC6803',
         width: '30%',
         paddingVertical: 12,
-        alignSelf:'center',
+        alignSelf: 'center',
         alignItems: 'center',
         borderRadius: 8,
         justifyContent: 'center',
-      },
-      buttonText: {
+    },
+    buttonText: {
         color: '#FFFFFF',
         fontSize: 14,
         fontWeight: 'bold',
-      },
+    },
 });
 
 

@@ -1,9 +1,28 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { SvgXml } from 'react-native-svg';
-import CheckBox from '@react-native-community/checkbox';
+// import CheckBox from '@react-native-community/checkbox';
+import auth from '@react-native-firebase/auth';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import logo from './assets/signup.svg';
 import google from './assets/google.svg';
+
+GoogleSignin.configure({
+    webClientId: '436174361962-tdm6p890if0uilh56t7alvg9gs7m7nnc.apps.googleusercontent.com'
+});
+
+const CustomCheckbox = ({ isChecked }) => {
+    return (
+        <View
+            style={[
+                styles.roundCheckBox,
+                isChecked ? styles.roundCheckBoxActive : styles.roundCheckBoxInactive,
+            ]}
+        >
+            <Text style={styles.tick}>✔</Text>
+        </View>
+    );
+};
 
 const RegisterPage = ({ navigation }) => {
     const [password, setPassword] = useState('');
@@ -16,7 +35,41 @@ const RegisterPage = ({ navigation }) => {
         setHasSpecialCharacter(/[!@#$%^&*(),.?":{}|<>]/.test(text));
     };
 
-    return (
+    const signInWithGoogle = async () => {
+        try {
+            await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+    
+            const signInResult = await GoogleSignin.signIn();
+    
+            const idToken = signInResult.data?.idToken;
+    
+            if (!idToken) {
+                throw new Error('No ID token found');
+            }
+    
+            console.log('ID Token:', idToken);
+    
+            const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    
+            await auth().signInWithCredential(googleCredential);
+    
+            console.log('User signed in successfully with Google!');
+        } catch (error) {
+            // Handle specific errors
+            if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+                console.log('User cancelled the login flow');
+            } else if (error.code === statusCodes.IN_PROGRESS) {
+                console.log('Sign in is in progress already');
+            } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                console.log('Play services not available or outdated');
+            } else {
+                console.error('Error during Google Sign-In:', error);
+            }
+        }
+    };
+    
+
+    return  (
         <View style={styles.container}>
             <SvgXml xml={logo} width="100" height="100" style={styles.svg} />
 
@@ -42,22 +95,13 @@ const RegisterPage = ({ navigation }) => {
 
             <View style={styles.checkBoxContainer}>
                 <View style={styles.checkBoxRow}>
-                    <CheckBox
-                        value={isEightCharacters}
-                        disabled
-                        style={{ borderRadius: 10 }}
-                        tintColors={{ true: '#175A63', false: '#D0D5DD' }}
-                    />
+                    <CustomCheckbox isChecked={isEightCharacters} />
                     <Text style={[styles.checkBoxText, isEightCharacters && styles.activeCheckBoxText]}>
                         Must be at least 8 characters
                     </Text>
                 </View>
                 <View style={styles.checkBoxRow}>
-                    <CheckBox
-                        value={hasSpecialCharacter}
-                        disabled
-                        tintColors={{ true: '#175A63', false: '#D0D5DD' }}
-                    />
+                    <CustomCheckbox isChecked={hasSpecialCharacter} />
                     <Text
                         style={[styles.checkBoxText, hasSpecialCharacter && styles.activeCheckBoxText]}
                     >
@@ -66,26 +110,19 @@ const RegisterPage = ({ navigation }) => {
                 </View>
             </View>
 
-            <TouchableOpacity style={styles.continueButton} onPress={() => {
-                    navigation.navigate("register2");
-                }}>
+            <TouchableOpacity style={styles.continueButton} onPress={() => navigation.navigate('register2')}>
                 <Text style={styles.continueButtonText}>Continue</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.googleButton}>
+            <TouchableOpacity style={styles.googleButton} onPress={signInWithGoogle}>
                 <SvgXml xml={google} />
-                <Text>  </Text>
-                <Text style={styles.googleButtonText}>
-                    Sign up with Google
-                </Text>
+                <Text> </Text>
+                <Text style={styles.googleButtonText}>Sign up with Google</Text>
             </TouchableOpacity>
 
-            {/* Footer */}
             <View style={styles.footer}>
                 <Text style={styles.footerText}>Already have an account?</Text>
-                <TouchableOpacity onPress={() => {
-                    navigation.replace("Login");
-                }}>
+                <TouchableOpacity onPress={() => navigation.replace('Login')}>
                     <Text style={styles.footerLink}>Log in</Text>
                 </TouchableOpacity>
             </View>
@@ -93,7 +130,7 @@ const RegisterPage = ({ navigation }) => {
     );
 };
 
-export default RegisterPage;
+
 
 const styles = StyleSheet.create({
     container: {
@@ -181,6 +218,21 @@ const styles = StyleSheet.create({
         color: '#344054',
         marginTop: -3
     },
+    checkBoxContainer: { marginBottom: 20 },
+    checkBoxRow: { flexDirection: 'row', alignItems: 'center', marginVertical: 5 },
+    checkBoxText: { marginLeft: 10, color: '#6b6b6b' },
+    activeCheckBoxText: { color: '#175A63' },
+    roundCheckBox: {
+        width: 20,
+        height: 20,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 1,
+    },
+    roundCheckBoxActive: { backgroundColor: '#175A63', borderColor: '#175A63' },
+    roundCheckBoxInactive: { backgroundColor: '#D0D5DD', borderColor: '#D0D5DD' },
+    tick: { color: '#fff', fontSize: 14, fontWeight: 'bold' },
     footer: {
         flexDirection: 'row',
         justifyContent: 'center',
@@ -197,3 +249,4 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
+export default RegisterPage;

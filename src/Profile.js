@@ -54,9 +54,9 @@ export default function Profile({ navigation }) {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-              <TouchableOpacity 
-    style={styles.backButton} 
-    onPress={() => navigation.goBack()}>
+                <TouchableOpacity
+                    style={styles.backButton}
+                    onPress={() => navigation.goBack()}>
                     <SvgXml xml={backArrowSvg} width="24" height="24" />
                 </TouchableOpacity>
                 <Text style={styles.title}>Profile</Text>
@@ -74,151 +74,151 @@ export default function Profile({ navigation }) {
                     {/* Upload Photo Button */}
                     <TouchableOpacity style={styles.uploadButton}>
                         <Text style={styles.buttonText}>Upload Photo</Text>
-                    </TouchableOpacity>          
+                    </TouchableOpacity>
                     <View style={styles.div}>
 
-                              <Text style={styles.fieldLabel}>First Name <Text style={styles.required}>*</Text></Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="First Name"
-                        placeholderTextColor="#667085"
-                        value={firstName}
-                        onChangeText={setFirstName}
-                    />
+                        <Text style={styles.fieldLabel}>First Name <Text style={styles.required}>*</Text></Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="First Name"
+                            placeholderTextColor="#667085"
+                            value={firstName}
+                            onChangeText={setFirstName}
+                        />
 
-                    {/* Last Name */}
-                    <Text style={styles.fieldLabel}>Last Name <Text style={styles.required}>*</Text></Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Last Name"
-                        placeholderTextColor="#667085"
-                        value={lastName}
-                        onChangeText={setLastName}
-                    />
+                        {/* Last Name */}
+                        <Text style={styles.fieldLabel}>Last Name <Text style={styles.required}>*</Text></Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Last Name"
+                            placeholderTextColor="#667085"
+                            value={lastName}
+                            onChangeText={setLastName}
+                        />
 
-                    {/* Date of Birth */}
-                    <Text style={styles.fieldLabel}>Date of Birth <Text style={styles.required}>*</Text></Text>
-                    <TouchableOpacity style={styles.input} onPress={() => setShowDatePicker(true)}>
-                        <View style={styles.dateContainer}>
-                            <Text style={styles.dateText}>
-                                {selectedDate ? selectedDate.toDateString() : 'Select Date'}
-                            </Text>
-                            <SvgXml xml={calendarIconSvg} width="20" height="20" style={styles.calendarIcon} />
-                        </View>
-                    </TouchableOpacity>
+                        {/* Date of Birth */}
+                        <Text style={styles.fieldLabel}>Date of Birth <Text style={styles.required}>*</Text></Text>
+                        <TouchableOpacity style={styles.input} onPress={() => setShowDatePicker(true)}>
+                            <View style={styles.dateContainer}>
+                                <Text style={styles.dateText}>
+                                    {selectedDate ? selectedDate.toDateString() : 'Select Date'}
+                                </Text>
+                                <SvgXml xml={calendarIconSvg} width="20" height="20" style={styles.calendarIcon} />
+                            </View>
+                        </TouchableOpacity>
 
-                    {showDatePicker && (
-                        <DatetTimePicker
-                            mode="date"
-                            value={selectedDate || new Date()}
-                            onChange={(event, date) => {
-                                setSelectedDate(date);
-                                setShowDatePicker(false);
+                        {showDatePicker && (
+                            <DatetTimePicker
+                                mode="date"
+                                value={selectedDate || new Date()}
+                                onChange={(event, date) => {
+                                    setSelectedDate(date);
+                                    setShowDatePicker(false);
+                                }}
+                            />
+                        )}
+
+                        {/* Gender */}
+                        <Text style={styles.fieldLabel}>Gender <Text style={styles.required}>*</Text></Text>
+                        <Dropdown
+                            style={styles.dropdown}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            iconStyle={styles.iconStyle}
+                            data={genderData}
+                            itemTextStyle={{ color: "#667085" }}
+                            maxHeight={300}
+                            labelField="label"
+                            valueField="value"
+                            placeholder={!isGenderFocus ? 'Select Gender' : '...'}
+                            value={selectedGender}
+                            onFocus={() => setIsGenderFocus(true)}
+                            onBlur={() => setIsGenderFocus(false)}
+                            onChange={item => {
+                                setSelectedGender(item.value);
+                                setIsGenderFocus(false);
                             }}
                         />
-                    )}
 
-                    {/* Gender */}
-                    <Text style={styles.fieldLabel}>Gender <Text style={styles.required}>*</Text></Text>
-                    <Dropdown
-                        style={styles.dropdown}
-                        placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
-                        iconStyle={styles.iconStyle}
-                        data={genderData}
-                        itemTextStyle={{ color: "#667085" }}
-                        maxHeight={300}
-                        labelField="label"
-                        valueField="value"
-                        placeholder={!isGenderFocus ? 'Select Gender' : '...'}
-                        value={selectedGender}
-                        onFocus={() => setIsGenderFocus(true)}
-                        onBlur={() => setIsGenderFocus(false)}
-                        onChange={item => {
-                            setSelectedGender(item.value);
-                            setIsGenderFocus(false);
-                        }}
-                    />
+                        {/* Phone Number */}
+                        <Text style={styles.fieldLabel}>Phone Number <Text style={styles.required}>*</Text></Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Enter your phone"
+                            placeholderTextColor="#667085"
+                            value={phone}
+                            onChangeText={setPhone}
+                            keyboardType="phone-pad"
+                        />
+                        <TouchableOpacity>
 
-                    {/* Phone Number */}
-                    <Text style={styles.fieldLabel}>Phone Number <Text style={styles.required}>*</Text></Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Enter your phone"
-                        placeholderTextColor="#667085"
-                        value={phone}
-                        onChangeText={setPhone}
-                        keyboardType="phone-pad"
-                    />
-                    <TouchableOpacity>
+                            <Text style={styles.add}>+ Add another phone</Text>
+                        </TouchableOpacity>
+                        {/* Address */}
+                        <Text style={styles.fieldLabel}>SOC/BLDG/CHAWL NAME <Text style={styles.required}>*</Text></Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="SOC/BLDG/CHAWL NAME"
+                            placeholderTextColor="#667085"
+                            value={address}
+                            onChangeText={setAddress}
+                        />
 
-                        <Text style={styles.add}>+ Add another phone</Text>
-                    </TouchableOpacity>
-                    {/* Address */}
-                    <Text style={styles.fieldLabel}>SOC/BLDG/CHAWL NAME <Text style={styles.required}>*</Text></Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="SOC/BLDG/CHAWL NAME"
-                        placeholderTextColor="#667085"
-                        value={address}
-                        onChangeText={setAddress}
-                    />
+                        {/* Floor Number */}
+                        <Text style={styles.fieldLabel}>Home/Floor Number <Text style={styles.required}>*</Text></Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Home/Floor Number"
+                            placeholderTextColor="#667085"
+                            value={floor}
+                            onChangeText={setFloor}
+                        />
 
-                    {/* Floor Number */}
-                    <Text style={styles.fieldLabel}>Home/Floor Number <Text style={styles.required}>*</Text></Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Home/Floor Number"
-                        placeholderTextColor="#667085"
-                        value={floor}
-                        onChangeText={setFloor}
-                    />
+                        {/* Road Name */}
+                        <Text style={styles.fieldLabel}>Road Name <Text style={styles.required}>*</Text></Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Road Name"
+                            placeholderTextColor="#667085"
+                            value={road}
+                            onChangeText={setRoad}
+                        />
 
-                    {/* Road Name */}
-                    <Text style={styles.fieldLabel}>Road Name <Text style={styles.required}>*</Text></Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Road Name"
-                        placeholderTextColor="#667085"
-                        value={road}
-                        onChangeText={setRoad}
-                    />
+                        {/* Area Name */}
+                        <Text style={styles.fieldLabel}>Area Name <Text style={styles.required}>*</Text></Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Area Name"
+                            placeholderTextColor="#667085"
+                            value={area}
+                            onChangeText={setArea}
+                        />
 
-                    {/* Area Name */}
-                    <Text style={styles.fieldLabel}>Area Name <Text style={styles.required}>*</Text></Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Area Name"
-                        placeholderTextColor="#667085"
-                        value={area}
-                        onChangeText={setArea}
-                    />
-
-                    {/* City */}
-                    <Text style={styles.fieldLabel}>City <Text style={styles.required}>*</Text></Text>
-                    <Dropdown
-                        style={styles.dropdown}
-                        placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
-                        inputSearchStyle={styles.inputSearchStyle}
-                        iconStyle={styles.iconStyle}
-                        itemTextStyle={{ color: "#667085" }}
-                        data={cityData}
-                        maxHeight={400}
-                        labelField="label"
-                        valueField="value"
-                        searchPlaceholder="Search..."
-                        search
-                        placeholder={!isCityFocus ? 'Select City' : '...'}
-                        value={selectedCity}
-                        onFocus={() => setIsCityFocus(true)}
-                        onBlur={() => setIsCityFocus(false)}
-                        onChange={item => {
-                            setSelectedCity(item.value);
-                            setIsCityFocus(false);
-                        }}
-                    />
-                </View>
+                        {/* City */}
+                        <Text style={styles.fieldLabel}>City <Text style={styles.required}>*</Text></Text>
+                        <Dropdown
+                            style={styles.dropdown}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            inputSearchStyle={styles.inputSearchStyle}
+                            iconStyle={styles.iconStyle}
+                            itemTextStyle={{ color: "#667085" }}
+                            data={cityData}
+                            maxHeight={400}
+                            labelField="label"
+                            valueField="value"
+                            searchPlaceholder="Search..."
+                            search
+                            placeholder={!isCityFocus ? 'Select City' : '...'}
+                            value={selectedCity}
+                            onFocus={() => setIsCityFocus(true)}
+                            onBlur={() => setIsCityFocus(false)}
+                            onChange={item => {
+                                setSelectedCity(item.value);
+                                setIsCityFocus(false);
+                            }}
+                        />
+                    </View>
 
                     {/* Continue Button */}
 
@@ -239,16 +239,16 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: 30,
-        backgroundColor:'white',
+        backgroundColor: 'white',
 
     },
-div:{
-backgroundColor:'white',
-padding: 15,
-marginVertical:15,
-borderRadius:8,
-elevation: 5, 
-},
+    div: {
+        backgroundColor: 'white',
+        padding: 15,
+        marginVertical: 15,
+        borderRadius: 8,
+        elevation: 5,
+    },
     backButton: {
         borderColor: '#D0D5DD',
         borderWidth: 1,
@@ -301,7 +301,7 @@ elevation: 5,
     },
     content: {
         paddingHorizontal: 10,
-        backgroundColor:'#FAFAFA'
+        backgroundColor: '#FAFAFA'
     },
     fieldLabel: {
         fontSize: 14,
@@ -400,27 +400,27 @@ elevation: 5,
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 15, // Space between image and button
-      },
-      image: {
-        marginTop:15,
+    },
+    image: {
+        marginTop: 15,
         width: 130,
         height: 130,
         borderRadius: 65, // Make it a circle if you prefer
-      },
-      uploadButton: {
+    },
+    uploadButton: {
         backgroundColor: '#DC6803',
         width: '30%',
         paddingVertical: 12,
-        alignSelf:'center',
+        alignSelf: 'center',
         alignItems: 'center',
         borderRadius: 8,
         justifyContent: 'center',
-      },
-      buttonText: {
+    },
+    buttonText: {
         color: '#FFFFFF',
         fontSize: 14,
         fontWeight: 'bold',
-      },
+    },
 });
 
 

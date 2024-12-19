@@ -1,12 +1,14 @@
-import React from 'react';
-import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 import Voter from './assets/voter.png';
 import image from './assets/image.svg';
 import search from './assets/search.svg';
 import ticket from './assets/ticket.svg';
 import thumbs from './assets/thumbs.svg';
+import loc6 from './assets/loc3.svg';
 import packagee from './assets/package.svg';
+import url from '../env';
 
 const backArrowSvg = `
 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -16,12 +18,36 @@ const backArrowSvg = `
 `;
 
 export default function Events({ navigation }) {
+    const [events, setEvents] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                const response = await fetch(`${url.nodeapipath}event`);
+                const data = await response.json();
+                setEvents(data);
+            } catch (error) {
+                console.error('Error fetching events:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchEvents();
+    }, []);
+
+    const filteredEvents = events.filter(event =>
+        event.eventName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-              <TouchableOpacity 
-    style={styles.backButton} 
-    onPress={() => navigation.goBack()}>
+                <TouchableOpacity
+                    style={styles.backButton}
+                    onPress={() => navigation.goBack()}>
                     <SvgXml xml={backArrowSvg} width="24" height="24" />
                 </TouchableOpacity>
                 <Text style={styles.title}>Events</Text>
@@ -36,53 +62,76 @@ export default function Events({ navigation }) {
                     style={styles.searchInput}
                     placeholder="Search"
                     placeholderTextColor="#667085"
+                    value={searchTerm}
+                    onChangeText={setSearchTerm}
                 />
                 <SvgXml xml={search} width="20" height="20" style={styles.searchIcon} />
             </View>
+            {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" style={styles.loader} />
+      ) : (
+        <ScrollView>
+          <View style={styles.content}>
+            {filteredEvents.map(event => (
+              <View key={event._id} style={styles.outerBox}>
+                <View style={styles.padding}>
+                  <View style={styles.row}>
+                    {/* Event Image */}
+                    <View style={styles.imageContainer}>
+                      <Image
+                        source={{ uri: `${url.nodeapipath}uploads/${event.eventImage || 'placeholder.png'}` }}
+                        style={styles.imagePlaceholder}
+                      />
+                    </View>
 
-            <ScrollView>
-                <View style={styles.content}>
-                    {Array(4).fill(null).map((_, index) => (
-                        <View key={index} style={styles.outerBox}>
-                            <View style={styles.padding}>
-                                <View style={styles.row}>
-                                    <View style={styles.imageContainer}>
-                                        <SvgXml xml={image} style={styles.imagePlaceholder} />
-                                    </View>
-
-                                    {/* Content Box */}
-                                    <View style={styles.contentBox}>
-                                        {/* Main Heading */}
-                                        <Text style={styles.boxHeading}>Chatri Vatap Camp</Text>
-
-                                        {/* Subsections */}
-                                        <View style={styles.subSection}>
-                                            <SvgXml xml={packagee} style={styles.icon} />
-                                            <Text style={styles.boxSubText}>Sarswat Building No 2</Text>
-                                        </View>
-                                        <View style={styles.subSection}>
-                                            <SvgXml xml={ticket} style={styles.icon} />
-                                            <Text style={styles.boxSubText}>Ghodbunder, Thane</Text>
-                                        </View>
-                                        <View style={styles.subSection}>
-                                            <SvgXml xml={thumbs} style={styles.icon} />
-                                            <Text style={styles.boxSubText}>12/11/24</Text>
-                                        </View>
-
-                                        {/* Status View */}
-                                        <View style={styles.statusContainer}>
-                                            <Text style={styles.statusText}>Completed</Text>
-                                        </View>
-                                    </View>
-                                </View>
-                            </View>
-                        </View>
-                    ))}
-
+                    {/* Event Details */}
+                    <View style={styles.contentBox}>
+                      <Text
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                        style={styles.boxHeading}
+                      >
+                        {event.eventName}
+                      </Text>
+                      <View style={styles.subSection}>
+                        <SvgXml xml={packagee} style={styles.icon} />
+                        <Text style={styles.boxSubText}>
+                          {event.eventBuildingId?.buildingName}, {event.eventRoadId?.roadName}
+                        </Text>
+                      </View>
+                      <View style={styles.subSection}>
+                        <SvgXml xml={ticket} style={styles.icon} />
+                        <Text style={styles.boxSubText}>
+                          {event.eventAreaId?.areaName}, Ward {event.eventWardId?.wardName}
+                        </Text>
+                      </View>
+                      <View style={styles.subSection}>
+                        <SvgXml xml={loc6} style={{ marginRight: 4 }} />
+                        <Text style={styles.boxSubText}>
+                          {event.eventLocationId?.locationName}, Thane
+                        </Text>
+                      </View>
+                      <View style={styles.subSection}>
+                        <SvgXml xml={thumbs} style={styles.icon} />
+                        <Text style={styles.boxSubText}>
+                          {new Date(event.eventDate).toLocaleDateString('en-GB')}
+                        </Text>
+                      </View>
+                      <View style={styles.statusContainer}>
+                        <Text style={styles.statusText}>
+                          {event.status === 'Active' ? 'Completed' : 'Pending'}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
                 </View>
-            </ScrollView>
-        </View>
-    );
+              </View>
+            ))}
+          </View>
+        </ScrollView>
+      )}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -185,7 +234,8 @@ const styles = StyleSheet.create({
         alignItems: 'center', // Ensures vertical alignment
     },
     boxHeading: {
-        fontSize: 15,
+        fontSize: 16,
+        marginBottom: 5,
         fontWeight: 'bold',
         color: 'black', // Color of the heading text
     },

@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Dashboard from './src/Dashboard';
 import { StatusBar } from 'react-native';
 import SplashScreen from './src/Splashscreen';
@@ -28,6 +27,11 @@ import HelpCenter from './src/Helpcenter';
 import InviteFriends from './src/InviteFriends';
 import SettingsPage from './src/Settings';
 import PrivacyPage from './src/PrivacyPolicy';
+import NoInternet from './src/errorpages/nointernet';
+import NoNotifications from './src/errorpages/nonotification';
+import NoPage from './src/errorpages/nopage';
+import GovtPolicy from './src/Govtpolicy';
+import Notification from './src/Notification';
 
 const Stack = createNativeStackNavigator();
 const App = () => {
@@ -37,6 +41,7 @@ const App = () => {
       <StatusBar
         backgroundColor="transparent"
         translucent={true}
+        barStyle="dark-content" 
       />
       <Stack.Navigator >
         <Stack.Screen
@@ -85,19 +90,19 @@ const App = () => {
           component={NewPassword}
           options={{ headerShown: false }}
         />
-        
+
         <Stack.Screen
           name="invitefriends"
           component={InviteFriends}
           options={{ headerShown: false }}
         />
-        
+
         <Stack.Screen
           name="Settings"
           component={SettingsPage}
           options={{ headerShown: false }}
         />
-           <Stack.Screen
+        <Stack.Screen
           name="helpcenter"
           component={HelpCenter}
           options={{ headerShown: false }}
@@ -127,17 +132,17 @@ const App = () => {
           component={GovernmentPage}
           options={{ headerShown: false }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="Account"
           component={Account}
           options={{ headerShown: false }}
         />
-           <Stack.Screen
+        <Stack.Screen
           name="VotingSlip"
           component={VoterSlip}
           options={{ headerShown: false }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="Jobs"
           component={Jobs}
           options={{ headerShown: false }}
@@ -147,24 +152,49 @@ const App = () => {
           component={PrivacyPage}
           options={{ headerShown: false }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="Events"
           component={Events}
           options={{ headerShown: false }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="Programs"
           component={Programs}
           options={{ headerShown: false }}
         />
-             <Stack.Screen
+          <Stack.Screen
+          name="Notifications"
+          component={Notification}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="Location"
           component={Location}
           options={{ headerShown: false }}
         />
-                <Stack.Screen
+        <Stack.Screen
           name="Family"
           component={Family}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="no-internet"
+          component={NoInternet}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="no-notifictations"
+          component={NoNotifications}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="no-page"
+          component={NoPage}
+          options={{ headerShown: false }}
+        />
+          <Stack.Screen
+          name="govtpolicy"
+          component={GovtPolicy}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

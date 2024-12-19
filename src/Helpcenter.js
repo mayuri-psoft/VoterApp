@@ -66,8 +66,10 @@ const HelpCenter = () => {
         <View style={styles.container}>
             {/* Header */}
             <View style={styles.header}>
-                <TouchableOpacity style={styles.backButton}>
-                    <SvgXml xml={backArrowSvg} width="24" height="24" />
+       <TouchableOpacity
+                    style={styles.backButton}
+                    onPress={() => navigation.goBack()}>       
+                                 <SvgXml xml={backArrowSvg} width="24" height="24" />
                 </TouchableOpacity>
                 <Text style={styles.title}>Help Center</Text>
             </View>
@@ -129,8 +131,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
     },
-    backButton: {
-        marginRight: 10,
+     backButton: {
+        borderColor: '#D0D5DD',
+        borderWidth: 1,
+        borderRadius: 8,
+        padding: 5,
     },
     title: {
         fontSize: 18,

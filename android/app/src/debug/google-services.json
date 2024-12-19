@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "436174361962",
+    "project_id": "voterapp-d0b12",
+    "storage_bucket": "voterapp-d0b12.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436174361962:android:873d0d46e4aefea2af4113",
+        "android_client_info": {
+          "package_name": "com.voterapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "436174361962-bfqaqtg0qt259is21nuck59rc708lnla.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.voterapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "436174361962-tdm6p890if0uilh56t7alvg9gs7m7nnc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_yF2FYndQAWz_IPFftmLhX9e2iWrUrUw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "436174361962-tdm6p890if0uilh56t7alvg9gs7m7nnc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

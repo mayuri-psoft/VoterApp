@@ -52,7 +52,7 @@ const InviteFriends = ({ navigation }) => {
                         <MaterialCommunityIcons name="facebook" size={24} color="#3b5998" style={styles.icon} />
                         <MaterialCommunityIcons name="twitter" size={24} color="#1DA1F2" style={styles.icon} />
                         <MaterialCommunityIcons name="snapchat" size={24} color="black" style={styles.icon} />
-                        <MaterialCommunityIcons name="telegram" size={24} color="#0088CC" style={styles.icon} />
+                        {/* <MaterialCommunityIcons name="telegram" size={24} color="#0088CC" style={styles.icon} /> */}
                     </View>
                 </View>
             </View>
